@@ -4,6 +4,13 @@
 
 特点：基于 buildroot 构建框架搭建的 Linux SDK.
 
+## 使用構建容器
+
+```bash
+# cd 到 SDK 目录
+docker run -it --rm -v $(pwd):/root/sdk milkv bash
+./build_milkv.sh
+```
 
 ## 运行 htop
 
