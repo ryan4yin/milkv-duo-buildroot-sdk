@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 USER root
 WORKDIR /root
@@ -12,16 +12,17 @@ RUN apt-get update && \
       automake autoconf libtool \
       wget curl git \
       gcc libssl-dev bc slib squashfs-tools \
-      android-sdk-libsparse-utils android-sdk-ext4-utils \
-      jq python3-distutils tclsh scons parallel \
-      ssh-client tree python3-dev python3-pip device-tree-compiler \
-      ssh cpio fakeroot libncurses5 \
-      flex bison libncurses5-dev genext2fs \
-      rsync unzip dosfstools mtools && \
-    apt clean && rm -rf /var/cache ~/.cache
+      android-sdk-libsparse-utils jq python3-distutils scons parallel \
+      tree python3-dev python3-pip device-tree-compiler  \
+      ssh cpio fakeroot libncurses5 flex bison  \
+      libncurses5-dev genext2fs rsync unzip dosfstools mtools tcl openssh-client \
+      cmake && \
+    apt clean && rm -rf /var/cache/apt ~/.cache
 
-# install cmake
-RUN curl -L https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4-linux-x86_64.sh -o cmake.sh && \
-    chmod +x cmake.sh && \
-    ./cmake.sh --skip-license --prefix=/usr/local/ && \
-    rm cmake.sh
+RUN echo "deb http://security.ubuntu.com/ubuntu focal-security main" | tee /etc/apt/sources.list.d/focal-security.list && \
+    apt-get update && \
+    apt-get install -y libssl1.1 && \
+    apt clean && rm -rf /var/cache/apt ~/.cache
+
+
+WORKDIR /root/sdk
